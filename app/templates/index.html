@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farmer Helper</title>
+    <style>
+      body,
+      h1,
+      h2,
+      p,
+      a {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Apply a background color to the body */
+      body {
+        background-color: #f5f5f5;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Style the header */
+      header {
+        background-color: #dfa7a7;
+        color: #000000;
+        text-align: center;
+        padding: 20px 0;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        color: #090808;
+        text-align: center;
+        padding: 20px 0;
+      }
+
+      /* Style the main content */
+      main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 20px;
+      }
+
+      /* Style individual cards */
+      .card {
+        background-color: #b8d7de;
+        border-radius: 20 px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+        overflow: hidden;
+        width: 50%;
+        transition: transform 0.2s;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Style card images */
+      .card img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      /* Style card titles */
+      .card h3 {
+        font-size: 1.5rem;
+        padding: 10px;
+      }
+
+      /* Style card descriptions */
+      .card p {
+        font-size: 1rem;
+        padding: 0 10px 10px;
+      }
+
+      /* Style links within cards */
+      .card a {
+        color: #333;
+        text-decoration: none;
+      }
+
+      .card a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Smart Soil</h1>
+    </header>
+    <h2>A software for food producers</h2>
+
+    <main>
+      <div class="card">
+        <a href="{{ url_for('crop_recommend') }}">
+          <div class="container">
+            <h3>Crop Recommendation</h3>
+            <p>
+              Get recommendations about the best crops to cultivate based on
+              your conditions.
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <div class="card">
+        <a href="{{ url_for('fertilizer_recommendation') }}">
+          <div class="container">
+            <h3>Fertilizer Recommendation</h3>
+            <p>
+              Discover the best fertilizers for your soil and recommended crops.
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <div class="card">
+        <a href="{{ url_for('disease_prediction') }}">
+          <div class="container">
+            <h3>Crop Disease Prediction</h3>
+            <p>
+              Predict and identify crop diseases along with suggestions for
+              treatment.
+            </p>
+          </div>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>
