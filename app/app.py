@@ -1,5 +1,4 @@
 # Importing essential libraries and modules
-
 from flask import Flask, render_template, request, redirect
 from markupsafe import Markup
 import numpy as np
@@ -14,6 +13,7 @@ import torch
 from torchvision import transforms
 from PIL import Image
 from utils.model import ResNet9
+import joblib
 # ==============================================================================================
 
 # -------------------------LOADING THE TRAINED MODELS -----------------------------------------------
@@ -68,11 +68,15 @@ disease_model.eval()
 
 # Loading crop recommendation model
 
-crop_recommendation_model_path = 'models/RandomForest.pkl'   #change in model
-crop_recommendation_model = pickle.load(
-    open(crop_recommendation_model_path, 'rb'))
+# crop_recommendation_model_path = 'models/RandomForest.pkl'   #change in model
+# crop_recommendation_model = pickle.load(
+#     open(crop_recommendation_model_path, 'rb'))
+# Load the model when needed
+loaded_model = joblib.load('models/final_model.pkl')
 
-
+# Create a predict method for the loaded model
+def predict_with_loaded_model(data):
+    return loaded_model.predict(data)
 # =========================================================================================
 
 
@@ -143,7 +147,6 @@ def crop_recommend():
     title = 'SamrtSoil - Crop Recommendation'
     return render_template('crop.html', title=title)
 
-# render fertilizer recommendation form page
 
 
 @ app.route('/fertilizer')
@@ -155,10 +158,10 @@ def fertilizer_recommendation():
 # render disease prediction input page
 
 
-@app.route('/production')
-def production():
-    title = 'SmartSoil - production'
-    return render_template('form.html', title=title)
+# @app.route('/production')
+# def production():
+#     title = 'SmartSoil - production'
+#     return render_template('form.html', title=title)
 
 
 # ===============================================================================================
@@ -185,7 +188,8 @@ def crop_prediction():
         if weather_fetch(city) != None:
             temperature, humidity = weather_fetch(city)
             data = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
-            my_prediction = crop_recommendation_model.predict(data)
+            # my_prediction = crop_recommendation_model.predict(data)
+            my_prediction = predict_with_loaded_model(data)
             final_prediction = my_prediction[0]
 
             return render_template('crop-result.html', prediction=final_prediction, title=title)
@@ -208,7 +212,7 @@ def fert_recommend():
     # ph = float(request.form['ph'])
 
     df = pd.read_csv(
-        "C:/Users/vanga/OneDrive/Desktop/All/mini_project/smartSoil/app/Data/fertilizer.csv")
+        "C:\Users\vanga\OneDrive\Desktop\All\mini_project\smartSoil\Data-raw\FertilizerData.csv")
 
     nr = df[df['Crop'] == crop_name]['N'].iloc[0]
     pr = df[df['Crop'] == crop_name]['P'].iloc[0]
